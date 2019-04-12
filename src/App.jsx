@@ -22,10 +22,16 @@ class App extends Component {
     }
     const messages = this.state.messages.concat(messageObject)
     this.setState({messages: messages})
+    this.socket.send(JSON.stringify(messageObject));
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
+    // Connect to WebSockets server
+    const webSocket = new WebSocket('ws://localhost:3001');
+    webSocket.onopen = function (event) {
+      console.log("Connected to webSocket server.")
+    };
+
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
@@ -38,7 +44,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <Navbar />
