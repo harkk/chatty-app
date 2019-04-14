@@ -8,14 +8,19 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentUser: { name: "Bob" }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: { name: "Anonymous" }, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [] // messages from server stored here.
     }
     this.addMessage = this.addMessage.bind(this);
     this.messageHandler = this.messageHandler.bind(this);
+    this.addUser = this.addUser.bind(this);
   }
 
-  addMessage(message, username) {
+  addUser(username) {
+    this.setState({currentUser: {name: username}})
+  }
+
+  addMessage(message) {
     const messageObject = {
       username: this.state.currentUser.name,
       content: message,
@@ -44,7 +49,7 @@ class App extends Component {
       <div>
         <Navbar />
         <MessageList messages={this.state.messages} />
-        <ChatBar addMessage={this.addMessage} currentUser={this.state.currentUser}/>
+        <ChatBar addUser={this.addUser} addMessage={this.addMessage} currentUser={this.state.currentUser}/>
       </div>
     );
   }
