@@ -9,20 +9,24 @@ class App extends Component {
     super(props)
     this.state = {
       currentUser: { name: "Bob" }, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      messages: [] // messages from server stored here.
     }
     this.addMessage = this.addMessage.bind(this);
+    this.messageHandler = this.messageHandler.bind(this);
   }
 
   addMessage(message, username) {
     const messageObject = {
       username: this.state.currentUser.name,
       content: message,
-      id: Math.random()
     }
-    const messages = this.state.messages.concat(messageObject)
-    this.setState({messages: messages})
     this.socket.send(JSON.stringify(messageObject));
+  }
+
+  messageHandler(event) {
+    const message = JSON.parse(event.data);
+    const messages = this.state.messages.concat(message);
+    this.setState({messages: messages})
   }
 
   componentDidMount() {
@@ -31,6 +35,7 @@ class App extends Component {
     this.socket.onopen = function (event) {
       console.log("Connected to webSocket server.")
     };
+    this.socket.onmessage = this.messageHandler;
 
   }
 
