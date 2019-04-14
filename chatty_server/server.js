@@ -1,7 +1,5 @@
-// server.js
-
 const express = require('express');
-const WebSocket = require('ws');
+const WebSocket = require('ws')
 const SocketServer = WebSocket.Server;
 const uuid = require('uuid/v4');
 
@@ -19,27 +17,51 @@ const wss = new SocketServer({ server });
 
 wss.broadcast = data => {
   wss.clients.forEach(ws => {
+
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(data);
     }
-  })
-}
+  });
+};
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected');
-
+  console.log('Client connected YAY');
   ws.on("message", message => {
-    const messageObject = JSON.parse(message);
-    const messageCast = {
-      id: uuid(),
-      content: messageObject.content,
-      username: messageObject.username
+    const data = JSON.parse(message);
+    switch(data.type) {
+
+      case "postMessage":
+
+      const messageToBroadcast = {
+        type: "incomingMessage",
+        id: uuid(),
+        content: data.content,
+        username: data.username
+      }
+      console.log(messageToBroadcast);
+      wss.broadcast(JSON.stringify(messageToBroadcast));
+
+      break;
+
+      case "postNotification":
+
+      const usernameToBroadcast = {
+        type: "incomingNotification",
+        id: uuid(),
+        content: data.content
+      }
+
+      console.log(usernameToBroadcast);
+      wss.broadcast(JSON.stringify(usernameToBroadcast));
+
+      break;
+
+      default:
+      throw new Error("Unknown event type " + data.type);
     }
-    console.log(JSON.stringify(messageCast));
-    wss.broadcast(JSON.stringify(messageCast));
   })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
