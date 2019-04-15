@@ -26,4 +26,4 @@ The ChattyApp home page
 !["ChattyApp home page"](https://github.com/harkk/chatty-app/blob/master/docs/ChattyApp_home.png?raw=true)
 
 Sample chat
-!["ChattyApp sample chat"]()
+!["ChattyApp sample chat"](https://github.com/harkk/chatty-app/blob/master/docs/ChattyApp_sample.png?raw=true)
