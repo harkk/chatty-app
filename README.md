@@ -24,3 +24,6 @@ ChattyApp is a single page application (SPA) built with React, Webpack, Babel, N
 ## Final Product
 The ChattyApp home page
 !["ChattyApp home page"](https://github.com/harkk/chatty-app/blob/master/docs/ChattyApp_home.png?raw=true)
+
+Sample chat
+!["ChattyApp sample chat"]()

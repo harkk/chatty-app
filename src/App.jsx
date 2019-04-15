@@ -8,7 +8,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "Anonymous"},
       messages: [],
       userCount: {count: 0}
     };
@@ -26,7 +26,7 @@ export default class App extends Component {
     const data = JSON.parse(event.data);
     switch(data.type) {
       case "userCountChange":
-      this.setState({userCount: {count: data.userCount}})
+      this.setState({userCount: {count: data.userCount}});
       break;
 
       case "incomingMessage":
@@ -47,12 +47,12 @@ export default class App extends Component {
 
   // FUNCTIONS
   addUser(username) {
-    this.setState({currentUser: {name: username}})
+    this.setState({currentUser: {name: username}});
     const usernameObject = {
       type: "notiToServer",
       content: `${this.state.currentUser.name} changed their name to ${username}`
     }
-    this.socket.send(JSON.stringify(usernameObject))
+    this.socket.send(JSON.stringify(usernameObject));
   }
 
   addMessage(message) {
@@ -62,19 +62,19 @@ export default class App extends Component {
       content: message,
     }
     this.socket.send(JSON.stringify(messageObject));
-  }
+  };
 
   messageFromServer  = (data) => {
     const message = data;
     const messages = this.state.messages.concat(message);
     this.setState({messages: messages})
-  }
+  };
 
   notificationFromServer  = (data) => {
     const notification = data;
     const notifications = this.state.messages.concat(notification);
     this.setState({messages: notifications})
-  }
+  };
 
   // HTML to be rendered
   render() {
@@ -85,5 +85,5 @@ export default class App extends Component {
         <ChatBar addUser = {this.addUser} addMessage = {this.addMessage} currentUser = {this.state.currentUser.name} />
       </div>
     );
-  }
-}
+  };
+};

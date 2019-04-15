@@ -1,5 +1,5 @@
 const express = require('express');
-const WebSocket = require('ws')
+const WebSocket = require('ws');
 const SocketServer = WebSocket.Server;
 const uuid = require('uuid/v4');
 
@@ -9,7 +9,7 @@ const PORT = 3001;
 // Create a new express server
 const server = express()
    // Make the express server serve static assets (html, javascript, css) from the /public folder
-  .use(express.static('public'))
+  .use(express.static('public'));
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
 
 // Create the WebSockets server
@@ -28,7 +28,7 @@ wss.broadcast = data => {
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  console.log("COUNT: ", wss.clients.size)
+  console.log("COUNT: ", wss.clients.size);
 
   const userCount = {
     type: "userCountChange",
@@ -60,12 +60,12 @@ wss.on('connection', (ws) => {
       break;
       default: throw new Error("Unknown event type " + data.type);
     }
-  })
+  });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    console.log('No client disconnected')
-    console.log(wss.clients.size)
+    console.log('No client disconnected');
+    console.log(wss.clients.size);
     const userCount = {
       type: "userCountChange",
       userCount: wss.clients.size
