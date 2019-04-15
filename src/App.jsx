@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
+import Navbar from './Navbar.jsx';
 
 
 class App extends Component {
@@ -12,6 +13,30 @@ class App extends Component {
     };
     this.addMessage = this.addMessage.bind(this);
     this.addUser = this.addUser.bind(this);
+  }
+
+  componentDidMount() {
+    //connecting react app to websocket
+    this.socket = new WebSocket ("ws://localhost:3001");
+    this.socket.onopen = () => console.log("Client connected here");
+    this.socket.onmessage = (event) => {
+      // The socket event data is encoded as a JSON string.
+      // Turns it into an object
+      const data = JSON.parse(event.data);
+      switch(data.type) {
+        case "incomingMessage":
+        this.messageFromServer(data);
+        // handle incoming message
+        break;
+        case "incomingNotification":
+        this.notificationFromServer(data);
+        // handle incoming notification
+        break;
+        default:
+        // show an error in the console if the message type is unknown
+        throw new Error("Unknown event type " + data.type);
+      }
+    };
   }
 
   addUser(username) {
@@ -44,41 +69,15 @@ class App extends Component {
     this.setState({messages: notifications})
   }
 
-
-  componentDidMount() {
-    //connecting react app to websocket
-    this.socket = new WebSocket ("ws://localhost:3001");
-    this.socket.onopen = () => console.log("Client connected here");
-    this.socket.onmessage = (event) => {
-      // The socket event data is encoded as a JSON string.
-      // Turns it into an object
-      const data = JSON.parse(event.data);
-      switch(data.type) {
-        case "incomingMessage":
-        this.messageFromServer(data);
-          // handle incoming message
-          break;
-        case "incomingNotification":
-        this.notificationFromServer(data);
-          // handle incoming notification
-          break;
-        default:
-          // show an error in the console if the message type is unknown
-          throw new Error("Unknown event type " + data.type);
-      }
-    };
-  }
-
   render() {
     return (
       <div>
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
-        </nav>
+        <Navbar />
         <MessageList messages  = {this.state.messages} />
         <ChatBar addUser = {this.addUser} addMessage = {this.addMessage} currentUser = {this.state.currentUser.name} />
       </div>
     );
   }
 }
+
 export default App;
