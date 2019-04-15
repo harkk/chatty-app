@@ -6,7 +6,7 @@ export default class Navbar extends React.Component {
       <header>
         <nav className="navbar">
           <a href="/" className="navbar-brand">ChattyApp</a>
-          <p>User Count: {this.state.userCount.count}</p>
+          <p id="userCount">User count: {this.props.userCount}</p>
         </nav>
       </header>
     );

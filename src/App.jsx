@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
+import Navbar from './Navbar.jsx';
 
 
 export default class App extends Component {
@@ -44,22 +45,23 @@ export default class App extends Component {
     };
   }
 
+  // FUNCTIONS
   addUser(username) {
     this.setState({currentUser: {name: username}})
-    const usernameObj = {
+    const usernameObject = {
       type: "postNotification",
       content: `${this.state.currentUser.name} changed their name to ${username}`
     }
-    this.socket.send(JSON.stringify(usernameObj))
+    this.socket.send(JSON.stringify(usernameObject))
   }
 
   addMessage(message) {
-    const messageObj = {
+    const messageObject = {
       type: "postMessage",
       username: this.state.currentUser.name,
       content: message,
     }
-    this.socket.send(JSON.stringify(messageObj));
+    this.socket.send(JSON.stringify(messageObject));
   }
 
   messageFromServer  = (data) => {
@@ -74,13 +76,11 @@ export default class App extends Component {
     this.setState({messages: notifications})
   }
 
+  // HTML to be rendered
   render() {
     return (
       <div>
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
-          <p id="userCount">User count: {this.state.userCount.count}</p>
-        </nav>
+        <Navbar userCount={this.state.userCount.count} />
         <MessageList messages  = {this.state.messages} />
         <ChatBar addUser = {this.addUser} addMessage = {this.addMessage} currentUser = {this.state.currentUser.name} />
       </div>
