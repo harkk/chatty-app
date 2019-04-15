@@ -49,7 +49,7 @@ export default class App extends Component {
   addUser(username) {
     this.setState({currentUser: {name: username}})
     const usernameObject = {
-      type: "postNotification",
+      type: "notiToServer",
       content: `${this.state.currentUser.name} changed their name to ${username}`
     }
     this.socket.send(JSON.stringify(usernameObject))
@@ -57,7 +57,7 @@ export default class App extends Component {
 
   addMessage(message) {
     const messageObject = {
-      type: "postMessage",
+      type: "msgToServer",
       username: this.state.currentUser.name,
       content: message,
     }
