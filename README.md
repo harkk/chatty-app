@@ -1,6 +1,6 @@
 # ChattyApp
 
-ChattyApp is a single page application (SPA) built with React, Webpack, Babel, NodeJS, webSockets, and Express. It allows users to communicate with one another in real-time.
+ChattyApp is a single page application (SPA) built with React, Webpack, Babel, NodeJS, webSockets, and Express. It allows users to communicate with one another in real-time with the ability to change their username, all the while displaying the number of users connected to the chat.
 
 ## Getting Started
 
