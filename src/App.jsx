@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
-import Navbar from './Navbar.jsx';
 
 
 export default class App extends Component {
@@ -9,7 +8,8 @@ export default class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      messages: [],
+      userCount: {count: 0}
     };
     this.addMessage = this.addMessage.bind(this);
     this.addUser = this.addUser.bind(this);
@@ -20,21 +20,26 @@ export default class App extends Component {
     this.socket = new WebSocket ("ws://localhost:3001");
     this.socket.onopen = () => console.log("Client connected here");
     this.socket.onmessage = (event) => {
-      // The socket event data is encoded as a JSON string.
-      // Turns it into an object
-      const data = JSON.parse(event.data);
-      switch(data.type) {
-        case "incomingMessage":
-        this.messageFromServer(data);
-        // handle incoming message
-        break;
-        case "incomingNotification":
-        this.notificationFromServer(data);
-        // handle incoming notification
-        break;
-        default:
-        // show an error in the console if the message type is unknown
-        throw new Error("Unknown event type " + data.type);
+    // The socket event data is encoded as a JSON string.
+    // Turns it into an object
+    const data = JSON.parse(event.data);
+    switch(data.type) {
+      case "userCountChange":
+      this.setState({userCount: {count: data.userCount}})
+      break;
+
+      case "incomingMessage":
+      this.messageFromServer(data);
+      // handle incoming message
+      break;
+
+      case "incomingNotification":
+      this.notificationFromServer(data);
+      // handle incoming notification
+      break;
+      default:
+      // show an error in the console if the message type is unknown
+      throw new Error("Unknown event type " + data.type);
       }
     };
   }
@@ -72,7 +77,10 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <nav className="navbar">
+          <a href="/" className="navbar-brand">Chatty</a>
+          <p id="userCount">User count: {this.state.userCount.count}</p>
+        </nav>
         <MessageList messages  = {this.state.messages} />
         <ChatBar addUser = {this.addUser} addMessage = {this.addMessage} currentUser = {this.state.currentUser.name} />
       </div>
