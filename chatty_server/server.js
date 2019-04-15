@@ -17,7 +17,6 @@ const wss = new SocketServer({ server });
 
 wss.broadcast = data => {
   wss.clients.forEach(ws => {
-
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(data);
     }
@@ -32,9 +31,7 @@ wss.on('connection', (ws) => {
   ws.on("message", message => {
     const data = JSON.parse(message);
     switch(data.type) {
-
       case "postMessage":
-
       const messageToBroadcast = {
         type: "incomingMessage",
         id: uuid(),
@@ -43,24 +40,17 @@ wss.on('connection', (ws) => {
       }
       console.log(messageToBroadcast);
       wss.broadcast(JSON.stringify(messageToBroadcast));
-
       break;
-
       case "postNotification":
-
       const usernameToBroadcast = {
         type: "incomingNotification",
         id: uuid(),
         content: data.content
       }
-
       console.log(usernameToBroadcast);
       wss.broadcast(JSON.stringify(usernameToBroadcast));
-
       break;
-
-      default:
-      throw new Error("Unknown event type " + data.type);
+      default: throw new Error("Unknown event type " + data.type);
     }
   })
 

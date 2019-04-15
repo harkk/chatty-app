@@ -4,7 +4,7 @@ import MessageList from './MessageList.jsx';
 import Navbar from './Navbar.jsx';
 
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +43,7 @@ class App extends Component {
     this.setState({currentUser: {name: username}})
     const usernameObj = {
       type: "postNotification",
-      content: `User has change their name to ${username}`
+      content: `${this.state.currentUser.name} changed their name to ${username}`
     }
     this.socket.send(JSON.stringify(usernameObj))
   }
@@ -79,5 +79,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

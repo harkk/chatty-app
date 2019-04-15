@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
-class MessageList extends Component {
+export default class MessageList extends Component {
   render() {
     return (
       <div id= "messages-container">
@@ -11,5 +11,3 @@ class MessageList extends Component {
     );
   }
 }
-
-export default MessageList;
