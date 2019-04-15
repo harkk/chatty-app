@@ -9,7 +9,7 @@ ChattyApp is a single page application (SPA) built with React, Webpack, Babel, N
 3. Run the server using `npm start` command.
 4. Go into the chatty_server folder and use `npm install` command to install dependencies.
 5. Run `npm start` in the chatty_server folder.
-6. The app is server at http://localhost:3000
+6. The app is server at http://localhost:3000 or http://0.0.0.0:3000.
 
 ## Dependencies
 
@@ -23,4 +23,4 @@ ChattyApp is a single page application (SPA) built with React, Webpack, Babel, N
 
 ## Final Product
 The ChattyApp home page
-!["ChattyApp home page"]()
+!["ChattyApp home page"](https://github.com/harkk/chatty-app/blob/master/docs/ChattyApp_home.png?raw=true)
